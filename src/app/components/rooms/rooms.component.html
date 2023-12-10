@@ -2,10 +2,47 @@
 <h1>Welcome to {{hotelName}}</h1>
 <div [hidden]="hideRooms">
     Number of Rooms:
-    <span [innerText]="numberOfRooms"></span>
+    <div [ngStyle]="{'color' : rooms.availableRooms ? 'steelblue' : 'red'}"
+    [innerText]="numberOfRooms">
 </div>
-<div *ngIf="rooms.availableRooms > 0">
+    <!-- <span [innerText]="numberOfRooms"></span> -->
+</div>
+<!-- Nullish coalescing not nullable -->
+        <!-- {{rooms.availableRooms ?? 'No rooms'}} -->
+<!-- Optional chaining -->
+<!-- Before accessing availableRooms go and check Nullish coalescing -->
+        <!-- <div *ngIf="rooms?.availableRooms">
+            Room List
+        </div> -->
+
+    <!-- {{roomList}}     -->
+    <!-- {{roomList | json}} for debugging -->
+    <table>
+        <tr>
+            <th>Index</th>
+            <th>Even/Odd</th>
+            <th>Room Number</th>
+            <th>Room Type</th>
+            <th>Room Price</th>
+            <th>Room Amenties</th>
+            <th>checkin Time</th>   
+            <th>Rating</th>        
+        </tr>
+        <tr [ngClass]="e ? 'even': 'odd'"      
+        *ngFor="let room of roomList ; let e = even; let i = index;">
+           <!-- *ngFor="let room of roomList | slice : 0: 1; let e = even; let i = index;"> -->
+            <td>{{i | percent}}</td>
+            <td>{{ e ? "Even" : "Odd"}}</td>
+            <td>{{ room.roomNumber}}</td>
+            <td>{{ room.roomType|titlecase}}</td>
+            <td>{{ room.price| currency : 'INR'}}</td>
+            <td>{{ room.amenities | lowercase}}</td>
+            <td>{{ room.checkinTime |date : 'dd/MMM/YYY'}}</td>
+            <!-- <td>{{ room.checkinTime |date : 'short'}}</td> -->            
+        </tr>
+    </table>
+<!-- <div *ngIf="rooms.availableRooms > 0">
     Room List
-</div>
+</div> -->
 
 <button (click)="toggle()">Toggle</button>
